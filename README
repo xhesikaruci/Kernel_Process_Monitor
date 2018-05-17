@@ -1,0 +1,24 @@
+I. To make bash script "monitor.sh" executable, give permissions to the file: 
+  >> chmod 755 monitor.sh
+II. To run the bash script "monitor.sh", enter command: 
+  >>./monitor.sh
+ 
+ 
+ This program uses Kernel information about the processes that are running in your system from the directory /proc. 
+ /proc is a virtual file system which provides information about the system's configuration and allows modifications.
+ The purpose of using information from /proc, and avoiding other programs like ps, or top, is to have less overhead 
+ and be quicker since our code is backrounding rather than using the CMD and redirecting from there. 
+ 
+ 
+ III. Functionalities: 
+ 
+ 1) Print the name of all processes that are immediate children of init by using the
+   information in /proc. 
+   >>The immediate children PIDs of a process can be found in /proc/$PID/task/$PID/children
+2) Choose one process from (1). 
+3) Monitor the process you chose in (2). If it dies, print both its name and
+   the latest value of se.vruntime you saw
+   >>We check if the PID that we are monitoring is still in /proc which implicitly means that is still running, 
+   if not then we report the process as dead with the latest se.vruntime info which can be found in directory: 
+   /proc/$PID/sched
+   
