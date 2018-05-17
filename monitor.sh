@@ -1,6 +1,9 @@
 #!/bin/bash 
+# Process init in Unix-based OS is the first process started during booting and continues running until system shuts down
+# PID of init=1
 
-temp=$(</proc/1/task/1/children); #save the content of the children file in variable num.
+
+temp=$(</proc/1/task/1/children); #save the content (running PIDs) of the children file in variable temp.
 process_id=( $temp );
 tLen=${#process_id[@]};
 
@@ -31,8 +34,9 @@ while [ -d /proc/$process_id ];  #checking if PID file of the process being moni
     vruntime=$( awk '/se.vruntime/ {print $3}' < /proc/${process_id[$6]}/sched);
     sleep 5;
 done
-echo "Process $process_name with PID= $process_id just stopped.
-Latest se.vruntime is: $vruntime. ";
+  #if not, it means that the process has dies and we print the latest se.vruntime values found in sched file of the PID directory
+echo "Process $process_name with PID= $process_id just stopped. 
+Latest se.vruntime is: $vruntime. "; 
 logger "Process $process_name with PID= $process_id just stopped.
 Latest se.vruntime is: $vruntime. ";
 
